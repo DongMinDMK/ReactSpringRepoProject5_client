@@ -4,6 +4,7 @@ import Login from "./component/Login"
 import Join from "./component/member/Join"
 import Main from "./component/Main"
 import WritePost from "./component/post/WritePost"
+import MyPage from "./component/member/MyPage"
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/join" element={<Join></Join>}></Route>
         <Route path="/main" element={<Main></Main>}></Route>
         <Route path="/writePost" element={<WritePost></WritePost>}></Route>
+        <Route path="/mypage" element={<MyPage></MyPage>}></Route>
       </Routes>
     </div>
   );

@@ -8,6 +8,7 @@ import "../style/posts.css"
 function Main() {
   const [loginUser, setLoginUser] = useState({});
   const [postList, setPostList] = useState([]);
+  const [word, setWord] = useState("n");
   const navigate = useNavigate();
 
   useEffect(()=>{
@@ -24,21 +25,21 @@ function Main() {
     })
 
 
-    axios.get("/api/posts/getPostList")
+    axios.get(`/api/posts/getPostList/${word}`)
     .then((result)=>{
       console.log(result.data.postList);
-      setPostList(result.data.postList)
+      setPostList(result.data.postList);
     })
     .catch((err)=>{
       console.error(err);
     })
-  },[]
+  },[word]
   )
 
 
   return (
     <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-      <MainMenu></MainMenu>
+      <MainMenu setWord={setWord}></MainMenu>
       {/* <MainMenu loginUser={loginUser}></MainMenu>  첫번째 방법 props 이용*/} 
       <div className="Posts">
         {

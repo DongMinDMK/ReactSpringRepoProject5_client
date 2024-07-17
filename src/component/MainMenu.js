@@ -4,11 +4,14 @@ import axios from "axios";
 
 import "../style/mainmenu.css"
 
-function MainMenu() {
+function MainMenu(props) {
 
     const navigate = useNavigate();
     const [loginUser, setLoginUser] = useState({});
     const [imgSrc, setImgSrc] = useState("http://localhost:5000/images/user.png");
+    const [viewOrNot, setViewOrNot] = useState(false);
+    const [searchTag, setSearchTag] = useState("");
+    const [inputStyle, setInputStyle] = useState({display:"none"});
 
     useEffect(()=>{
         axios.get("/api/members/getLoginUser")
@@ -21,11 +24,33 @@ function MainMenu() {
         .catch((err)=>{
             console.error(err);
         })
+
     },[]
     )
 
-    function onLogout(){
+    useEffect(()=>{
+      if(!viewOrNot){
+        setInputStyle({display:"none"})
+        props.setWord("n");
+        setSearchTag("");
+      }else{
+        setInputStyle({display:"flex", margin:"5px 5px"});
+      }
+    },[viewOrNot]
+    )
 
+    function onLogout(){
+      axios.get("/api/members/logout")
+      .then(()=>{
+        navigate("/");
+      })
+      .catch((err)=>{
+        console.error(err);
+      })
+    }
+
+    function onSearch(){
+      props.setWord(searchTag)
     }
 
   return (
@@ -37,11 +62,18 @@ function MainMenu() {
         <img src='http://localhost:5000/images/write.png' onClick={()=>{
           navigate("/writePost");
         }}></img>
-        <img src='http://localhost:5000/images/search.png'></img>
-        <img src={imgSrc}></img>
+        <img src='http://localhost:5000/images/search.png' onClick={()=>{setViewOrNot(!viewOrNot)}}></img>
+        <img src={imgSrc} onClick={()=>{navigate("/mypage")}}></img>
         <img src='http://localhost:5000/images/logout.png' onClick={()=>{
           onLogout();
         }}></img>
+      </div>
+
+      <div className="search" style={inputStyle}>
+        <input type="text" value={searchTag} style={{flex:"4", padding:"3px"}} onChange={(e)=>{
+          setSearchTag(e.currentTarget.value)
+        }}></input>
+        <button style={{flex:"1", padding:"3px"}} onClick={()=>{onSearch()}}>해시태그 검색</button>
       </div>
     </div>
   )

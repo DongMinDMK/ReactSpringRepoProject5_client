@@ -20,6 +20,7 @@ const settings = {
 function Posts(props) {
 
     const [loginUser, setLoginUser] = useState({});
+    const [followings, setFollowings] = useState([]);
     const [likeList, setLikeList] = useState([]);
     const [images, setImages] = useState("");
     const [replyList, setReplyList] = useState([]);
@@ -33,6 +34,8 @@ function Posts(props) {
                 navigate('/');
             }
             setLoginUser(result.data.loginUser);
+            setFollowings(result.data.followings);
+            console.log(result.data.followings);
         })
         .catch((err)=>{console.error(err)})
 
@@ -68,12 +71,30 @@ function Posts(props) {
 
     }
 
+    async function onFollow(writer){
+        // 클릭을 하면 팔로잉이 일어나게 하기
+        // 한번 더 클릭을 하면 지우기
+        try{
+            await axios.post("/api/posts/follow", {follow_from:loginUser.nickname, follow_to:writer})
+            const result = await axios.get("/api/posts/getFollowings");
+            setFollowings(result.data);
+        }catch(err){
+            console.error(err);
+        }
+    }
+
     return (
         <div className='post' style={{width:"780px"}}>
             <div className='writer' style={{display:"flex"}}>
                 <div>{props.post.id}&nbsp;&nbsp;</div>
                 <div>{props.post.writer}&nbsp;&nbsp;</div>
-                <button>FOLLOW</button>
+                {
+                    (
+                        (loginUser.nickname != props.post.writer) && (!followings.includes(props.post.writer))
+                        ?(<button onClick={()=>{onFollow(props.post.writer)}}>FOLLOW</button>):
+                        (null)
+                    )
+                }
             </div>
             {
             <Slider {...settings}>
@@ -107,7 +128,9 @@ function Posts(props) {
                 <img src={`http://localhost:5000/images/reply.png`} />
             </div>
             <div className='like'>
-                아직 "좋아요"가 없어요
+                {
+                    (likeList && likeList.length >= 1)?(<span>{likeList.length}명이 좋아합니다.</span>):(<span>아직 "좋아요"가 없어요</span>)
+                }
             </div>
             <div className='content'>{props.post.content}</div>
             <div className='reply'>
