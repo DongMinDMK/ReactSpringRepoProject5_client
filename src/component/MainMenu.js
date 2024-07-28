@@ -1,31 +1,43 @@
 import React, {useState, useEffect} from "react"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector, useDispatch } from 'react-redux';
+import { loginAction, logoutAction } from '../store/userSlice';
 
 import "../style/mainmenu.css"
 
 function MainMenu(props) {
 
     const navigate = useNavigate();
-    const [loginUser, setLoginUser] = useState({});
-    const [imgSrc, setImgSrc] = useState("http://localhost:5000/images/user.png");
+    const dispatch = useDispatch();
+    let loginUser = useSelector( state=>state.user );
+    // const [loginUser, setLoginUser] = useState({});
+    const [imgSrc, setImgSrc] = useState("http://localhost:8070/images/user.png");
     const [viewOrNot, setViewOrNot] = useState(false);
     const [searchTag, setSearchTag] = useState("");
     const [inputStyle, setInputStyle] = useState({display:"none"});
 
     useEffect(()=>{
-        axios.get("/api/members/getLoginUser")
-        .then((result)=>{
-            if(result.data.loginUser && result.data.loginUser.profileimg){
-                setImgSrc(`${result.data.loginUser.profileimg}`);
-                setLoginUser(result.data.loginUser);
-            }
-        })
-        .catch((err)=>{
-            console.error(err);
-        })
+        // axios.get("/api/members/getLoginUser")
+        // .then((result)=>{
+        //     if(result.data.loginUser && result.data.loginUser.profileimg){
+        //         setImgSrc(`${result.data.loginUser.profileimg}`);
+        //         setLoginUser(result.data.loginUser);
+        //     }
+        // })
+        // .catch((err)=>{
+        //     console.error(err);
+        // })
 
     },[]
+    )
+
+    useEffect(
+      ()=>{
+          if( loginUser.profileimg ){
+                   setImgSrc(loginUser.profileimg);
+          } 
+      },[]
     )
 
     useEffect(()=>{
@@ -56,15 +68,15 @@ function MainMenu(props) {
   return (
     <div>
       <div className='topmenu' style={{marginTop:"10px"}}>
-        <img src='http://localhost:5000/images/home.png' onClick={()=>{
+        <img src='http://localhost:8070/images/home.png' onClick={()=>{
           navigate("/main");
         }}></img>
-        <img src='http://localhost:5000/images/write.png' onClick={()=>{
+        <img src='http://localhost:8070/images/write.png' onClick={()=>{
           navigate("/writePost");
         }}></img>
-        <img src='http://localhost:5000/images/search.png' onClick={()=>{setViewOrNot(!viewOrNot)}}></img>
+        <img src='http://localhost:8070/images/search.png' onClick={()=>{setViewOrNot(!viewOrNot)}}></img>
         <img src={imgSrc} onClick={()=>{navigate("/mypage")}}></img>
-        <img src='http://localhost:5000/images/logout.png' onClick={()=>{
+        <img src='http://localhost:8070/images/logout.png' onClick={()=>{
           onLogout();
         }}></img>
       </div>

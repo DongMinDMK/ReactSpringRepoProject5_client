@@ -14,7 +14,7 @@ function Join() {
     const [intro, setIntro] = useState("");
     const [imgSrc, setImgSrc] = useState("");
     const [imgStyle, setImgStyle] = useState({display:"none"});
-    const [filename, setFilename] = useState("");
+    // const [filename, setFilename] = useState("");
 
     const navigate = useNavigate();
 
@@ -23,9 +23,10 @@ function Join() {
         formData.append("image", e.target.files[0]);
 
         const result = await axios.post("/api/members/fileupload", formData);
-        setFilename(result.data.savefilename)
+        // setFilename(result.data.savefilename)
 
-        setImgSrc(`http://localhost:5000/upimg/${result.data.savefilename}`);
+        console.log(`result.data.savefilename : ${result.data.savefilename}`);
+        setImgSrc(`http://localhost:8070/uploads/${result.data.savefilename}`);
         setImgStyle({display:"block", width:"300px"});
     }
 
@@ -44,17 +45,17 @@ function Join() {
         }
 
        try{
-        let result = await axios.post("/api/members/emailCheck", {email:email})
+        let result = await axios.post("/api/members/emailCheck", null, {params: {email:email}})
         if(result.data.message=="NO"){
             return window.alert("이메일이 중복됩니다.");
         }
 
-        result = await axios.post("/api/members/nickNameCheck", {nickname:nickname})
+        result = await axios.post("/api/members/nickNameCheck", null, {params:{nickname:nickname}})
         if(result.data.message=="NO"){
             return window.alert("닉네임이 중복됩니다.");
         }
 
-        result = await axios.post("/api/members/insertMember", {email:email, pwd:pwd, nickname:nickname, phone:phone, intro:intro, savefilename:imgSrc})
+        result = await axios.post("/api/members/insertMember", {email:email, pwd:pwd, nickname:nickname, phone:phone, profilemsg:intro, profileimg:imgSrc})
 
         if(result.data.message=="OK"){
             window.alert("회원가입이 정상적으로 완료되었습니다.");

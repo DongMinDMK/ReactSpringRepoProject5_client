@@ -3,29 +3,33 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MainMenu from "./MainMenu";
 import Posts from "./post/Posts";
+import { useSelector, useDispatch } from 'react-redux';
+import { loginAction, logoutAction } from '../store/userSlice';
 import "../style/posts.css"
 
 function Main() {
-  const [loginUser, setLoginUser] = useState({});
+  // const [loginUser, setLoginUser] = useState({});
   const [postList, setPostList] = useState([]);
   const [word, setWord] = useState("n");
+  const dispatch = useDispatch();
+  let loginUser = useSelector( state=>state.user );
   const navigate = useNavigate();
 
   useEffect(()=>{
-    axios.get("/api/members/getLoginUser")
-    .then((result)=>{
-      if(!result.data.loginUser){
-        window.alert("로그인이 필요합니다.");
-        navigate("/");
-      }
-      setLoginUser(result.data.loginUser);
-    })
-    .catch((err)=>{
-      console.error(err);
-    })
+    // axios.get("/api/members/getLoginUser")
+    // .then((result)=>{
+    //   if(!result.data.loginUser){
+    //     window.alert("로그인이 필요합니다.");
+    //     navigate("/");
+    //   }
+    //   setLoginUser(result.data.loginUser);
+    // })
+    // .catch((err)=>{
+    //   console.error(err);
+    // })
 
 
-    axios.get(`/api/posts/getPostList/${word}`)
+    axios.get("/api/posts/getPostList")
     .then((result)=>{
       console.log(result.data.postList);
       setPostList(result.data.postList);
@@ -33,7 +37,7 @@ function Main() {
     .catch((err)=>{
       console.error(err);
     })
-  },[word]
+  },[/*word*/]
   )
 
 
