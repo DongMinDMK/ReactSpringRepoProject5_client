@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MainMenu from '../MainMenu';
+import { useSelector } from 'react-redux';
 
 import "../../style/writepost.css"
 
@@ -49,7 +50,10 @@ function Posts(props) {
 
     const [content, setContent] = useState("");
 
-    const [loginUser, setLoginUser] = useState({});
+    const [word, setWord] = useState("");
+    const loginUser = useSelector( state=>state.user );
+
+    // const [loginUser, setLoginUser] = useState({});
 
     const navigate = useNavigate();
 
@@ -63,24 +67,6 @@ function Posts(props) {
 
     useEffect(()=>{
 
-        axios.get("/api/members/getLoginUser")
-        .then((result)=>{
-            if(!result.data.loginUser){ 
-                window.alert("로그인이 필요한 서비스입니다.");
-                navigate("/");
-
-            }
-
-            setLoginUser(result.data.loginUser);
-
-        })
-
-        .catch((err)=>{
-
-            console.error(err);
-
-        })
-
     },[]
 
     )
@@ -92,58 +78,58 @@ function Posts(props) {
 
         if(n == 1){
             setDivStyle2(fieldStyle);
-            setImgSrc1(`http://localhost:5000/upimg/${result.data.savefilename}`);
+            setImgSrc1(`http://localhost:8070/uploads/${result.data.savefilename}`);
         }else if(n == 2){
 
             setDivStyle3(fieldStyle);
 
-            setImgSrc2(`http://localhost:5000/upimg/${result.data.savefilename}`);
+            setImgSrc2(`http://localhost:8070/uploads/${result.data.savefilename}`);
 
         }else if(n == 3){
 
             setDivStyle4(fieldStyle);
 
-            setImgSrc3(`http://localhost:5000/upimg/${result.data.savefilename}`);
+            setImgSrc3(`http://localhost:8070/uploads/${result.data.savefilename}`);
 
         }else if(n == 4){
 
             setDivStyle5(fieldStyle);
 
-            setImgSrc4(`http://localhost:5000/upimg/${result.data.savefilename}`);
+            setImgSrc4(`http://localhost:8070/uploads/${result.data.savefilename}`);
 
         }else if(n == 5){
 
             setDivStyle6(fieldStyle);
 
-            setImgSrc5(`http://localhost:5000/upimg/${result.data.savefilename}`);
+            setImgSrc5(`http://localhost:8070/uploads/${result.data.savefilename}`);
 
         }else if(n == 6){
 
             setDivStyle7(fieldStyle);
 
-            setImgSrc6(`http://localhost:5000/upimg/${result.data.savefilename}`);
+            setImgSrc6(`http://localhost:8070/uploads/${result.data.savefilename}`);
 
         }else if(n == 7){
 
             setDivStyle8(fieldStyle);
 
-            setImgSrc7(`http://localhost:5000/upimg/${result.data.savefilename}`);
+            setImgSrc7(`http://localhost:8070/uploads/${result.data.savefilename}`);
 
         }else if(n == 8){
 
             setDivStyle9(fieldStyle);
 
-            setImgSrc8(`http://localhost:5000/upimg/${result.data.savefilename}`);
+            setImgSrc8(`http://localhost:8070/uploads/${result.data.savefilename}`);
 
         }else if(n == 9){
 
             setDivStyle10(fieldStyle);
 
-            setImgSrc9(`http://localhost:5000/upimg/${result.data.savefilename}`);
+            setImgSrc9(`http://localhost:8070/uploads/${result.data.savefilename}`);
 
         }else if(n == 10){
 
-            setImgSrc10(`http://localhost:5000/upimg/${result.data.savefilename}`);
+            setImgSrc10(`http://localhost:8070/uploads/${result.data.savefilename}`);
 
         }
 
@@ -190,7 +176,7 @@ function Posts(props) {
     }
   return (
     <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-        <MainMenu></MainMenu>
+        <MainMenu setWord={setWord}></MainMenu>
         <div className='postWrite'>
             <div className='title' style={{fontFamily:"Dancing Script", fontSize:"150%"}}>Feed Write</div>
             <div className='field'>

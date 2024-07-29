@@ -29,15 +29,15 @@ function Main() {
     // })
 
 
-    axios.get("/api/posts/getPostList")
+    axios.get("/api/posts/getPostList", {params:{word:word}})
     .then((result)=>{
-      console.log(result.data.postList);
+      // console.log(result.data.postList);
       setPostList(result.data.postList);
     })
     .catch((err)=>{
       console.error(err);
     })
-  },[/*word*/]
+  },[word]
   )
 
 
