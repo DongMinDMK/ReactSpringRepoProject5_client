@@ -84,9 +84,7 @@ function MyPage() {
                     (imgList)?(
                         imgList.map((imgs, idx)=>{
                             return (
-                                <div key={idx} onClick={
-                                    ()=>{ navigate(`/postone/${postList[idx].id}`) }
-                                }>
+                                <div key={idx} onClick={()=>{ navigate(`/postone/${postList[idx].id}`) }}>
                                     <img src={`http://localhost:8070/uploads/${imgs}`} />
                                 </div>
                             )
