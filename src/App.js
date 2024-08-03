@@ -7,6 +7,7 @@ import WritePost from "./component/post/WritePost"
 import MyPage from "./component/member/MyPage"
 import Kakaosaveinfo from './component/member/Kakaosaveinfo';
 import PostOne from "./component/post/PostOne";
+import EditProfile from "./component/member/EditProfile"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/mypage" element={<MyPage></MyPage>}></Route>
         <Route path="/kakaosaveinfo" element={<Kakaosaveinfo></Kakaosaveinfo>}></Route>
         <Route path='/postone/:postid' element={<PostOne></PostOne>}></Route>
+        <Route path="/editProfile" element={<EditProfile></EditProfile>}></Route>
       </Routes>
     </div>
   );

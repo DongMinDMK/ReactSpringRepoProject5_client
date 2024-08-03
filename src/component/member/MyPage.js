@@ -75,8 +75,8 @@ function MyPage() {
                     <div>{loginUser.profilemsg}</div>
                 </div>
                 <div className='btns'>
-                    <button>EDIT PROFILE</button>
-                    <button>POST WRITE</button>
+                    <button onClick={()=>{navigate("/editProfile")}}>EDIT PROFILE</button>
+                    <button onClick={()=>{navigate("/writePost")}}>POST WRITE</button>
                 </div>
                 <div className='userpost' >
                 {/* 한줄에 세개씩 이미지를 적당한 크기로 나열해주세요. 필요하다면  css 수정도 해주세요 */}
